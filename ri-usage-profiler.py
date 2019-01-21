@@ -151,8 +151,8 @@ def create_ec2_ri_dataset(ri_sub_file, date_hour):
     result = []
     for ri_sub in data['ReservedInstances']:
         # RI订阅使用UTC时间，DBR使用北京时间，所以这里需要+8h修订
-        date_start = datetime.strptime(ri_sub['Start'], '%Y-%m-%dT%H:%M:%S.%fZ') - timedelta(hours=8)  
-        date_end = datetime.strptime(ri_sub['End'], '%Y-%m-%dT%H:%M:%S.%fZ') - timedelta(hours=8)  
+        date_start = datetime.strptime(ri_sub['Start'], '%Y-%m-%dT%H:%M:%S.%fZ') + timedelta(hours=8)  
+        date_end = datetime.strptime(ri_sub['End'], '%Y-%m-%dT%H:%M:%S.%fZ') + timedelta(hours=8)  
         if (date_start <= date_hour_spec <= date_end): # RI json中的state代表的是导出订阅数据时刻的订阅状态，直接拿来做有效性判断有问题
             ec2_ri_model = ri_sub['InstanceType']
             ec2_ri_model_parts = ec2_ri_model.split('.')
